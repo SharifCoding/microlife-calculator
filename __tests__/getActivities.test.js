@@ -36,6 +36,7 @@ describe('getActivities', () => {
       });
       // mock a response object
       const response = httpMocks.createResponse({
+        // event emitter to trigger an end event
         eventEmitter: events.EventEmitter,
       });
       // pass request/response objects into controller
@@ -45,6 +46,46 @@ describe('getActivities', () => {
       response.on('end', () => {
         expect(response.statusCode).toEqual(200);
         expect(response._getData()).toEqual(user.profile.activities);
+        done();
+      });
+    });
+  });
+  it('gets a single user activity', (done) => {
+    // expect.assertions(2);
+    const filePath = path.join(__dirname, '../controllers', 'user.json');
+
+    // adding in some activities to user object
+    const user = {
+      profile: {
+        activities: [{
+          _id: 'abc123',
+          activityId: 'short-walk',
+          quantity: 1,
+        }, {
+          _id: 'def456',
+          activityId: 'red-meat',
+          quantity: 2,
+        }],
+      },
+    };
+
+    fs.writeFile(filePath, JSON.stringify(user), () => {
+      // added `params` key with a value of `{ profileActivityId: 'def456' }`
+      const request = httpMocks.createRequest({
+        method: 'GET',
+        url: '/profile/activities/def456',
+        params: { profileActivityId: 'def456' },
+        // params: { _id: 'def456' },
+      });
+      const response = httpMocks.createResponse({
+        eventEmitter: events.EventEmitter,
+      });
+      getActivities(request, response);
+
+      response.on('end', () => {
+        expect(response.statusCode).toEqual(200);
+        // expect second item in our mock users activities array
+        expect(response._getData()).toEqual(expect.objectContaining(user.profile.activities[1]));
         done();
       });
     });

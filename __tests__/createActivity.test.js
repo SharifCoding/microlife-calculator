@@ -26,6 +26,7 @@ describe('createActivity', () => {
 
     // mock a response object
     const response = httpMocks.createResponse({
+      // event emitter to trigger an end event
       eventEmitter: events.EventEmitter,
     });
 
