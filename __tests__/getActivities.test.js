@@ -45,13 +45,14 @@ describe('getActivities', () => {
       // listen out for end event that listen for `on` event
       response.on('end', () => {
         expect(response.statusCode).toEqual(200);
+        console.log(response._getData());
         expect(response._getData()).toEqual(user.profile.activities);
         done();
       });
     });
   });
   it('gets a single user activity', (done) => {
-    // expect.assertions(2);
+    expect.assertions(2);
     const filePath = path.join(__dirname, '../controllers', 'user.json');
 
     // adding in some activities to user object
@@ -85,6 +86,7 @@ describe('getActivities', () => {
       response.on('end', () => {
         expect(response.statusCode).toEqual(200);
         // expect second item in our mock users activities array
+        console.log(response._getData());
         expect(response._getData()).toEqual(expect.objectContaining(user.profile.activities[1]));
         done();
       });
