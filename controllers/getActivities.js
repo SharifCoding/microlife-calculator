@@ -13,13 +13,7 @@ const getActivities = (req, res) => {
     const profileActivityId = req.params.profileActivityId;
 
     if (profileActivityId) {
-      // const profileActivity = activities.find(activity => activity.id === profileActivityId);
-      const profileActivity = activities.find((activity) => {
-        console.log(activity._id);
-        console.log(profileActivityId);
-
-        return activity._id === profileActivityId;
-      });
+      const profileActivity = activities.find(activity => activity._id === profileActivityId);
       return res.status(200).send(profileActivity);
     }
     return res.status(200).send(activities);
