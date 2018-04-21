@@ -15,6 +15,7 @@ const createActivity = (req, res) => {
     const activityId = uuid();
     // `Object.assign` activity object; empty object literal, the request body, and a new object
     const activity = Object.assign({}, req.body, { _id: activityId });
+    // push() method adds element to the array
     user.profile.activities.push(activity);
 
     // fs.writeFile takes two arguments: the file path; and a callback function;

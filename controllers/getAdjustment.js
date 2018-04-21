@@ -4,10 +4,10 @@ const path = require('path');
 
 const getAdjustment = (req, res) => {
   // `fs.readFile` to retrieve the contents of `user.json`
-  const userJsonPath = path.join(__dirname, 'user.json');
+  const filePath = path.join(__dirname, 'user.json');
 
-  fs.readFile(userJsonPath, 'utf8', (userError, userJson) => {
-    if (userError) throw userError;
+  fs.readFile(filePath, 'utf8', (readError, userJson) => {
+    if (readError) throw readError;
 
     // `fs.readFile` again to retreive the contents of `activities.json`
     const activitiesJsonPath = path.join(__dirname, 'activities.json');
@@ -15,9 +15,9 @@ const getAdjustment = (req, res) => {
     fs.readFile(activitiesJsonPath, 'utf8', (activitiesErr, activitiesJson) => {
       if (activitiesErr) throw activitiesErr;
 
-      // Convert contents of `user.json` to a JS object and assign to `user`
+      // convert contents of `user.json` to a JS object and assign to `user`
       const user = JSON.parse(userJson);
-      // Convert contents of `activities.json` to a JS object and assign to `activities`
+      // convert contents of `activities.json` to a JS object and assign to `activities`
       const activities = JSON.parse(activitiesJson).activities;
 
       // map() method creates a new array with the returned results
